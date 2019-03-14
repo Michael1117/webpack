@@ -1,6 +1,9 @@
 // webpack 是node 写出来的 node的写法
 let path = require('path')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
+let MiniCssExtractPlugin = require('mini-css-extract-plugin') // 抽离css
+let OptimizeCss = require('optimize-css-assets-webpack-plugin')
+let UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 console.log(path.resolve('dist'))
 module.exports = {
@@ -9,7 +12,17 @@ module.exports = {
         progress: true, // 进度条
         contentBase: './dist',  // 指向build
         //open: true,   // 自动打开
-        compress: true  // 压缩
+        //compress: true  // 压缩
+    },
+    optimization: {  // 优化项
+        minimizer: [
+            new UglifyJsPlugin({
+                cache: true,
+                parallel: true,   // 并发打包
+                //sourceMap: true
+            }),
+            new OptimizeCss()
+        ]
     },
     mode: 'development',  // 模式 默认两种  production development
     entry: './src/index.js', // 入口
@@ -27,6 +40,9 @@ module.exports = {
                 collapseWhitespace: true   // 折叠空行
             },
             hash: true
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'main.css'
         })
     ],
     module: {  // 模块
@@ -38,13 +54,54 @@ module.exports = {
             // 多个loader需要 []
             // loader 的顺序 默认是从右向左执行  从下到上执行
             // loader 还可以写成 对象方式
-            {test: /\.css$/, use:[{
-                loader: 'style-loader',
-                options: {
-
+            {
+                test: /\.js$/,
+                use: {
+                    loader: 'eslint-loader',
+                    options: {
+                        enforce: 'pre'  // previous  前置先执行  因为loader 是从下往上执行的
+                    }
                 }
-            }, 'css-loader']}
+            },
+            {
+                test: /\.js$/,   // normal  普通的loader  默认
+                use: {
+                    loader: 'babel-loader',
+                    options: {  // 用babel-loader 需要把es6 -> es5  @babel/preset-env
+                        presets: [
+                            '@babel/preset-env'
+                        ],
+                        plugins: [
+                            ["@babel/plugin-proposal-decorators", { "legacy": true }],
+                            ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+                            "@babel/plugin-transform-runtime"
+                        ]
+                    }
+                },
+                include: path.resolve(__dirname, 'src'),
+                exclude: /node_modules/
+            },
+            {
+                //  可以处理less 文件
+                test: /\.css$/, 
+                use:[
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader'
+                ]
+            },
             //{test: /\.css$/, use:['style-loader', 'css-loader']}
+            {
+                //  可以处理less 文件  sass stylus node-sass sass-loader
+                // stylus stylus-loader 
+                test: /\.less$/, 
+                use:[
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',  // @import 解析路径
+                    'postcss-loader',
+                    'less-loader'  // 把less -> css 
+                ]
+            }
         ]
     }       
 }
