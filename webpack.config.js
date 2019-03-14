@@ -4,6 +4,8 @@ let HtmlWebpackPlugin = require('html-webpack-plugin')
 let MiniCssExtractPlugin = require('mini-css-extract-plugin') // 抽离css
 let OptimizeCss = require('optimize-css-assets-webpack-plugin')
 let UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+let Webpack = require('webpack')
+
 
 console.log(path.resolve('dist'))
 module.exports = {
@@ -43,8 +45,15 @@ module.exports = {
         }),
         new MiniCssExtractPlugin({
             filename: 'main.css'
-        })
+        }),
+        /* new Webpack.ProvidePlugin({  // 在每个模块中 都注入$
+            $: 'jquery'
+        }) */
+
     ],
+    externals: {
+        jquery: '$'
+    },
     module: {  // 模块
         // loader 
         rules: [  // 规则  css-loader  解析 @import 这种语法
@@ -55,6 +64,10 @@ module.exports = {
             // loader 的顺序 默认是从右向左执行  从下到上执行
             // loader 还可以写成 对象方式
             {
+                test: require.resolve('jquery'),
+                use: 'expose-loader?$'
+            },
+           /*  {
                 test: /\.js$/,
                 use: {
                     loader: 'eslint-loader',
@@ -62,7 +75,7 @@ module.exports = {
                         enforce: 'pre'  // previous  前置先执行  因为loader 是从下往上执行的
                     }
                 }
-            },
+            }, */
             {
                 test: /\.js$/,   // normal  普通的loader  默认
                 use: {
