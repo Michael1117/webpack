@@ -30,8 +30,8 @@ module.exports = {
     entry: './src/index.js', // 入口
     output: {   // 出口
         filename: 'bundle.[hash:8].js', // 打包后的文件名
-        path: path.resolve(__dirname,'dist')   // 路径必须是一个绝对路径  
-                                     //此时需要path path.resolve()能将相对路径解析为绝对路径
+        path: path.resolve(__dirname,'dist'),   // 路径必须是一个绝对路径  //此时需要path path.resolve()能将相对路径解析为绝对路径
+        //publicPath: 'http://www.baidu.com'                             
     },
     plugins: [// 数组  放着所有的webpack 插件
         new HtmlWebpackPlugin({
@@ -44,7 +44,7 @@ module.exports = {
             hash: true
         }),
         new MiniCssExtractPlugin({
-            filename: 'main.css'
+            filename: 'css/main.css'
         }),
         /* new Webpack.ProvidePlugin({  // 在每个模块中 都注入$
             $: 'jquery'
@@ -76,7 +76,10 @@ module.exports = {
                 use: {
                     loader: 'url-loader',
                     options: {
-                        limit: 2000 * 1024  // 如果图片小于 2000k 全部变成 base64 
+                        //limit: 2000 * 1024,  // 如果图片小于 2000k 全部变成 base64
+                        limit: 1,
+                        outputPath: '/img/',
+                        publicPath: 'http://www.baidu.com'
                     }
                 } 
 
