@@ -2,5 +2,11 @@
 
 body{
     background: red;
-    transform: rotate(45deg);
+    /* transform: rotate(45deg); */
+}
+
+div{
+    width: 612px;
+    height: 408px;
+    background: url('./logo.jpg');
 }

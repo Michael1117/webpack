@@ -56,6 +56,7 @@ module.exports = {
     },
     module: {  // 模块
         // loader 
+
         rules: [  // 规则  css-loader  解析 @import 这种语法
             // style-loader 把css 插入到head 的标签中
             // loader的特点  希望单一
@@ -63,6 +64,23 @@ module.exports = {
             // 多个loader需要 []
             // loader 的顺序 默认是从右向左执行  从下到上执行
             // loader 还可以写成 对象方式
+            {
+                test: /\.html$/,
+                use: 'html-withimg-loader'
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                //use: 'file-loader'
+                // 做一个限制  当我们的图片 < 多少k的时候 用base64来转化
+                // 否则用file-loader 产生真实的图片
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 2000 * 1024  // 如果图片小于 2000k 全部变成 base64 
+                    }
+                } 
+
+            },
             {
                 test: require.resolve('jquery'),
                 use: 'expose-loader?$'
