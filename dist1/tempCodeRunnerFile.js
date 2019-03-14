@@ -1,0 +1,1 @@
+return __webpack_require__(__webpack_require__.s = "./src/index.js");

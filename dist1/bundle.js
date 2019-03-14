@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"hello world11\"\r\n\r\n/* (function (){\r\n\r\n})() */\r\n\r\n/* var a = {\r\n    b:{\r\n        aa: 1,\r\n        bb: 2\r\n    }\r\n}\r\n\r\nconsole.log(a.b.aa) */\n\n//# sourceURL=webpack:///./src/a.js?");
+eval("module.exports = \"hello world11\"\n\n//# sourceURL=webpack:///./src/a.js?");
 
 /***/ }),
 
