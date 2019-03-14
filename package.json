@@ -1,0 +1,27 @@
+{
+  "name": "webpack_study",
+  "version": "1.0.0",
+  "description": "webpack_study",
+  "main": "index.js",
+  "scripts": {
+    "bulid": "webpack --config webpack.config.js",
+    "start": "",
+    "dev": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Michael1117/webpack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Michael1117/webpack/issues"
+  },
+  "homepage": "https://github.com/Michael1117/webpack#readme",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  }
+}
