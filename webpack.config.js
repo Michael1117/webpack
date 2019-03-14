@@ -1,5 +1,7 @@
 // webpack 是node 写出来的 node的写法
 let path = require('path')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
+
 console.log(path.resolve('dist'))
 module.exports = {
     devServer:{//开发服务器配置
@@ -15,5 +17,11 @@ module.exports = {
         filename: 'bundle.js', // 打包后的文件名
         path: path.resolve(__dirname,'dist')   // 路径必须是一个绝对路径  
                                      //此时需要path path.resolve()能将相对路径解析为绝对路径
-    }         
+    },
+    plugins: [// 数组  放着所有的webpack 插件
+        new HtmlWebpackPlugin({
+            template: './src/index.html',  // 需要打包的模板
+            filename: 'index.html'     // 打包后的文件名
+        })
+    ]         
 }
